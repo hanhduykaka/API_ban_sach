@@ -63,6 +63,7 @@ app.post('/postSaveQuoteNotification', (req, res) => {
         res.json({ success: "true" });
     } catch (error) {
         res.json({ success: "false" });
+        
     }
 
 });
@@ -75,6 +76,8 @@ function callback() {
 app.post('/getQuoteNotification', function (req, res) {
     try {
         var userFind = req.body.user;
+        console.log("found")
+
         fs.readFile('./du_lieu/Quote.json', 'utf8', function readFileCallback(err, data) {
             if (err) {
                 console.log(err);
