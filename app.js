@@ -114,7 +114,7 @@ app.get('/getQuoteNotificationPaging/:pagenum', function (req, res) {
                     let found = JSON.parse(data);//string to object json  
                     if (found) {
                         found.sort(comparefunction);
-                        res.json({ success: "true", data: paginate(found, 10, pageIndex),totalCount:found.length() });
+                        res.json({ success: "true", data: paginate(found, 10, pageIndex),totalCount:found.length });
                     }
                 }
 
