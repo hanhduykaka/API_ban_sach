@@ -26,15 +26,15 @@ app.post('/postUserName', function (req, res) {
 app.post('/postSaveQuoteNotification', (req, res) => {
 
     var datajson = {
-        "id": req.body.id  ? req.body.id : guid(),
+        "id": req.body.id ? req.body.id : guid(),
         "user": req.body.user,
         "status": req.body.status,
-        "createdon": req.body.createdon  ? req.body.createdon : new Date(),
+        "createdon": req.body.createdon ? req.body.createdon : new Date(),
         "lastUpdate": new Date()
 
     };
     try {
-      
+
         fs.readFile('./du_lieu/Quote.json', 'utf8', function readFileCallback(err, data) {
             console.log(data);
             if (err) {
@@ -114,7 +114,7 @@ app.get('/getQuoteNotificationPaging/:pagenum', function (req, res) {
                     let found = JSON.parse(data);//string to object json  
                     if (found) {
                         found.sort(comparefunction);
-                        res.json({ success: "true", data: paginate (found, 10, pageIndex) });
+                        res.json({ success: "true", data: paginate(found, 10, pageIndex),totalCount:found.length() });
                     }
                 }
 
@@ -122,7 +122,7 @@ app.get('/getQuoteNotificationPaging/:pagenum', function (req, res) {
         });
         // res.json({ success: "true",data:"" });
     } catch (error) {
-        res.json({ success: "true", data: "" });
+        res.json({ success: "true", data: "" ,totalCount:0});
     }
 });
 
@@ -160,18 +160,19 @@ function getCurrentDay() {
     return todayFM;
 }
 
-function comparefunction(a,b) {
+function comparefunction(a, b) {
     if (a.lastUpdate < b.lastUpdate)
-      return 1;
+        return 1;
     if (a.lastUpdate > b.lastUpdate)
-      return -1;
+        return -1;
     return 0;
-  }
-  function paginate (array, page_size, page_number) {
+}
+
+function paginate(array, page_size, page_number) {
     --page_number; // because pages logically start with 1, but technically with 0
     return array.slice(page_number * page_size, (page_number + 1) * page_size);
-  }
- 
+}
+
 
 
 app.listen(port);
