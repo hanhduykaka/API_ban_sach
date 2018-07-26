@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var app = express();
 app.use(bodyParser.json())
 const port = process.env.PORT || 5000;
+
 app.get('/getSanPham', function (req, res) {
     var data = fs.readFileSync("./du_lieu/san_pham.json");
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -102,6 +103,31 @@ app.post('/getQuoteNotification', function (req, res) {
 });
 
 
+app.get('/getQuoteNotificationPaging/:pagenum', function (req, res) {
+    try {
+        var pageIndex = req.params.pagenum;
+        fs.readFile('./du_lieu/Quote.json', 'utf8', function readFileCallback(err, data) {
+            if (err) {
+                console.log(err);
+            } else {
+                if (data) {
+                    let found = JSON.parse(data);//string to object json  
+                    if (found) {
+                        found.sort(comparefunction);
+                        res.json({ success: "true", data: paginate (found, 10, pageIndex) });
+                    }
+                }
+
+            }
+        });
+        // res.json({ success: "true",data:"" });
+    } catch (error) {
+        res.json({ success: "true", data: "" });
+    }
+});
+
+
+
 app.get('*', function (req, res) {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader('content-type', 'application/json');
@@ -141,7 +167,10 @@ function comparefunction(a,b) {
       return -1;
     return 0;
   }
-  
+  function paginate (array, page_size, page_number) {
+    --page_number; // because pages logically start with 1, but technically with 0
+    return array.slice(page_number * page_size, (page_number + 1) * page_size);
+  }
  
 
 
