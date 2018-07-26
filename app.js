@@ -63,7 +63,7 @@ app.post('/postSaveQuoteNotification', (req, res) => {
         res.json({ success: "true" });
     } catch (error) {
         res.json({ success: "false" });
-        
+
     }
 
 });
@@ -89,7 +89,7 @@ app.post('/getQuoteNotification', function (req, res) {
                         found.sort(comparefunction);
                         console.log("found")
                         console.log(found)
-                        res.json({ success: "true", data: found.slice(0, 3) });
+                        res.json({ success: "true", data: found.slice(0, 4) });
                     }
                 }
 
