@@ -102,17 +102,26 @@ app.post('/getQuoteNotification', function (req, res) {
     }
 });
 
+//app.get('/getQuoteNotificationPaging/:pagenum', function (req, res) {
+// =>> /getQuoteNotificationPaging/1 
 
-app.get('/getQuoteNotificationPaging/:pagenum', function (req, res) {
+// cai nay dung cho truong hop ?pagenum= 
+// =>> /getQuoteNotificationPaging?pagenum=1
+//dac biet trong asp.net get hay co kieu request nay
+app.get('/getQuoteNotificationPaging/:pagenum?', function (req, res) {
     try {
-        var pageIndex = req.params.pagenum;
+        var pageIndex = req.query.pagenum;
+
+        console.log("co ket noi: " + pageIndex)
+       
         fs.readFile('./du_lieu/Quote.json', 'utf8', function readFileCallback(err, data) {
-            if (err) {
+            if (err) {  
                 console.log(err);
             } else {
                 if (data) {
                     let found = JSON.parse(data);//string to object json  
                     if (found) {
+                        console.log(found)
                         found.sort(comparefunction);
                         res.json({ success: "true", data: paginate(found, 10, pageIndex),totalCount:found.length });
                     }
