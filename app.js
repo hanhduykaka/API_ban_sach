@@ -134,6 +134,28 @@ app.get('/getQuoteNotificationPaging/:pagenum?', function (req, res) {
         res.json({ success: "true", data: "" ,totalCount:0});
     }
 });
+//get all
+app.get('/getQuoteNotifications', function (req, res) {
+    try {
+        fs.readFile('./du_lieu/Quote.json', 'utf8', function readFileCallback(err, data) {
+            if (err) {  
+                console.log(err);
+            } else {
+                if (data) {
+                    let found = JSON.parse(data);//string to object json  
+                    if (found) {
+                    
+                        res.json({ success: "true", data: found});
+                    }
+                }
+
+            }
+        });
+        // res.json({ success: "true",data:"" });
+    } catch (error) {
+        res.json({ success: "true", data: "" });
+    }
+});
 
 
 
