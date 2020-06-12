@@ -10,14 +10,14 @@ const port = process.env.PORT || 5000;
 app.get('/getSanPham', function (req, res) {
     var data = fs.readFileSync("./du_lieu/san_pham.json");
     res.setHeader("Access-Control-Allow-Origin", "*");
-    res.json(data);
+    res.end(data);
 });
 
 app.post('/postUserName', function (req, res) {
     var data = fs.readFileSync("./du_lieu/nguoi_dung.json");
     res.setHeader("Access-Control-Allow-Origin", "*");
     if (req.body.token == "1234567890")
-        res.json(data);
+        res.end(data);
     else {
         res.end("please try another token");
     }
